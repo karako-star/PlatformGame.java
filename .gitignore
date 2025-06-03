@@ -1,24 +1,48 @@
-# Compiled class file
-*.class
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-# Log file
-*.log
+public class PlatformGame extends JFrame{
+    StartScreen p1;
+    GameScreen p2;
+    CardLayout card;
+    JPanel p;
 
-# BlueJ files
-*.ctxt
+    public PlatformGame(){
+	setSize(1000,750);
+	setTitle("Java Programing");
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+	p = new JPanel();
+	p1 = new StartScreen(this);
+	p2 = new GameScreen(this);
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+	card = new CardLayout();
+	p.setLayout(card);
+	p.add(p1, "panel1");
+	p.add(p2, "panel2");
+	add(p);
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+	setVisible(true);
+    }
+
+    /* panelChange:  画面遷移させるメソッド パネル（Panel_1, Panel_2）の中から呼び出される */
+    public void panelChange(String str) {
+    //スタート画面
+	if (str=="スタート画面") {
+		p2.isGame = false;
+		card.show(p, "panel1");
+	}
+	//ゲーム画面
+	if (str=="ゲーム画面") {
+		p2.isGame = true;
+		card.show(p, "panel2");
+		p.revalidate();
+		p2.requestFocus();
+	}
+    }
+
+    public static void main(String[] args){
+	new PlatformGame();
+    }
+}
